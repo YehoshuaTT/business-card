@@ -47,6 +47,19 @@ class BusinessCardsController {
       res.sendStatus(500);
     }
   }
+
+  static async upload(req, res) {
+    try {
+      if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send("No files were uploaded.");
+      }
+      if (await BusinessCardsService.upload(req.files?.image, req.user?.id))
+        res.sendStatus(200);
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
+  }
 }
 
 module.exports = BusinessCardsController;
