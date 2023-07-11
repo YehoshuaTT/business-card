@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { mongoose } = require("mongoose");
-const vistCardsRouts = require("./routes/vistCardsRouter");
+const businessCardsRouts = require("./routes/businessCardsRouter");
 const authRouts = require("./routes/authRouter");
 const express = require("express");
 const cookieParser = require("cookie-parser");
@@ -22,7 +22,7 @@ mongoose
   });
 
 app.use("/auth", authRouts);
-app.use("/visitcards", vistCardsRouts);
+app.use("/business", businessCardsRouts);
 const port = process.env.PORT;
 
 app.listen(port, () => {

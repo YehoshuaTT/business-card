@@ -1,4 +1,3 @@
-const BusinessCard = require("../models/user.model");
 const BusinessCard = require("../models/businessCard.model");
 
 class BusinessCardService {
