@@ -21,5 +21,25 @@ class UserService {
       return { token, user };
     }
   }
+
+  static async index() {
+    return User.find({});
+  }
+
+  static async show(userId) {
+    return User.findById({ userId });
+  }
+
+  static async create(userInfo) {
+    return User.create({ userInfo });
+  }
+
+  static async update(userId, userInfo) {
+    return User.findByIdAndUpdate(userId, { userInfo }, { new: true });
+  }
+
+  static async delete(userId) {
+    return User.findOneAndDelete({ userId });
+  }
 }
 module.exports = UserService;

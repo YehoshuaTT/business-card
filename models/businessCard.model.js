@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const VisitCardSchema = new Schema(
+const BusinessCardSchema = new Schema(
   {
+    userId: {
+      type: Schema.Types.ObjectId,
+      required: false,
+    },
     username: {
       type: String,
       required: true,
@@ -10,9 +14,12 @@ const VisitCardSchema = new Schema(
     email: {
       type: String,
       required: true,
-      unique: true,
     },
-    fullName: {
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
       type: String,
       required: true,
     },
@@ -20,7 +27,7 @@ const VisitCardSchema = new Schema(
       type: String,
       required: true,
     },
-    BuissnessType: {
+    BusinessType: {
       type: String,
       required: true,
     },
@@ -28,14 +35,10 @@ const VisitCardSchema = new Schema(
       type: String,
       required: true,
     },
-    password: {
-      type: String,
-      required: true,
-    },
   },
   { timestamps: true }
 );
 
-const VisitCard = mongoose.model("VisitCard", VisitCardSchema);
+const BusinessCard = mongoose.model("BusinessCard", BusinessCardSchema);
 
-module.exports = VisitCard;
+module.exports = BusinessCard;

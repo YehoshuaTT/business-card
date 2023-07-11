@@ -1,8 +1,9 @@
-const VistCardsService = require("../services/vistCards.service");
-class VistCardsController {
+const BusinessCardsService = require("../services/businessCards.service");
+
+class BusinessCardsController {
   static async index(req, res) {
     try {
-      res.send(await VistCardsService.index(req.user._id));
+      res.send(await BusinessCardsService.index());
     } catch (err) {
       console.log(err);
       res.sendStatus(500);
@@ -11,7 +12,7 @@ class VistCardsController {
 
   static async create(req, res) {
     try {
-      res.send(await VistCardsService.create(req.body, req.user.id));
+      res.send(await BusinessCardsService.create(req.body, req.user.id));
     } catch (err) {
       console.log(err);
       res.sendStatus(500);
@@ -20,7 +21,7 @@ class VistCardsController {
 
   static async show(req, res) {
     try {
-      res.send(await VistCardsService.show(req.params.id, req.user.id));
+      res.send(await BusinessCardsService.show(req.params.id, req.user.id));
     } catch (err) {
       console.log(err);
       res.sendStatus(500);
@@ -30,7 +31,7 @@ class VistCardsController {
   static async update(req, res) {
     try {
       res.send(
-        await VistCardsService.update(req.params.id, req.user.id, req.body)
+        await BusinessCardsService.update(req.params.id, req.user.id, req.body)
       );
     } catch (err) {
       console.log(err);
@@ -40,7 +41,7 @@ class VistCardsController {
 
   static async delete(req, res) {
     try {
-      res.send(await VistCardsService.delete(req.params.id, req.user.id));
+      res.send(await BusinessCardsService.delete(req.params.id, req.user.id));
     } catch (err) {
       console.log(err);
       res.sendStatus(500);
@@ -48,4 +49,4 @@ class VistCardsController {
   }
 }
 
-module.exports = VistCardsController;
+module.exports = BusinessCardsController;
