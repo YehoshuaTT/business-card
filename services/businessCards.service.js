@@ -13,13 +13,12 @@ class BusinessCardService {
 
   static async create(businessCard, userId) {
     const user = await User.findById(userId);
-    console.log(user);
     return BusinessCard.create({
       ...businessCard,
       userId,
       firstName: user.firstName,
       lastName: user.lastName,
-      username: user.firstName + " " + user.lastName,
+      username: user.firstName + " The User",
     });
   }
 
