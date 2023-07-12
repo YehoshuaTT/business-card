@@ -8,8 +8,8 @@ class UserClass {
     } catch (err) {
       console.log(err);
       if (err.message === "duplication error")
-        res.status(400).send("email already exists in the system");
-      res.sendStatus(500);
+        res.status(400).send("user already exists in the system");
+      else res.sendStatus(500);
     }
   }
 
@@ -21,7 +21,7 @@ class UserClass {
     } catch (err) {
       if (err.message === "Not excist error")
         res.status(401).send("Unauthorized");
-      res.sendStatus(500);
+      else res.sendStatus(500);
     }
   }
   static async checkLogin(req, res) {
