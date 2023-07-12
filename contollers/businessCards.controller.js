@@ -53,7 +53,10 @@ class BusinessCardsController {
       if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send("No files were uploaded.");
       }
-      if (await BusinessCardsService.upload(req.files?.image, req.user?.id))
+      const image = await BusinessCardsService.upload(req.files?.image);
+      if (
+        await BusinessCardsService.update(req.body.id, req.user.id, { image })
+      )
         res.sendStatus(200);
     } catch (err) {
       console.log(err);

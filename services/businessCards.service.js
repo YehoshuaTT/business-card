@@ -1,5 +1,6 @@
 const BusinessCard = require("../models/businessCard.model");
 const path = require("path");
+const User = require("../models/user.model");
 
 class BusinessCardService {
   static async index() {
@@ -11,7 +12,15 @@ class BusinessCardService {
   }
 
   static async create(businessCard, userId) {
-    return BusinessCard.create({ ...businessCard, userId });
+    const user = await User.findById(userId);
+    console.log(user);
+    return BusinessCard.create({
+      ...businessCard,
+      userId,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      username: user.firstName + " " + user.lastName,
+    });
   }
 
   static async update(businessCardId, userId, businessCard) {
@@ -26,14 +35,10 @@ class BusinessCardService {
     return BusinessCard.findOneAndDelete({ _id: businessCardId, userId });
   }
 
-  static async upload(image, userId) {
-    const imagePath = path.join(
-      __dirname,
-      "..",
-      "/public/images/",
-      image.name + Date.now()
-    );
-    if (image.mv(imagePath)) return true;
+  static async upload(image) {
+    const imageName = "/images/" + Date.now() + image.name;
+    if (image.mv(path.join(__dirname, "..", "/public", imageName)))
+      return imageName;
 
     //TODO: update busnies card with image path
   }

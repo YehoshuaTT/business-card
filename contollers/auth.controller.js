@@ -24,5 +24,13 @@ class UserClass {
       res.sendStatus(500);
     }
   }
+  static async checkLogin(req, res) {
+    try {
+      res.send(req.user);
+    } catch (err) {
+      console.log(err);
+      res.status(401).send("Unauthorized");
+    }
+  }
 }
 module.exports = UserClass;
