@@ -16,6 +16,7 @@ class BusinessCardService {
     return BusinessCard.create({
       ...businessCard,
       userId,
+      email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
       username: user.firstName + " The User",
@@ -38,8 +39,6 @@ class BusinessCardService {
     const imageName = "/images/" + Date.now() + image.name;
     if (image.mv(path.join(__dirname, "..", "/public", imageName)))
       return imageName;
-
-    //TODO: update busnies card with image path
   }
 }
 

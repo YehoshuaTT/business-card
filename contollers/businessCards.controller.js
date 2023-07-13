@@ -55,7 +55,7 @@ class BusinessCardsController {
       }
       const image = await BusinessCardsService.upload(req.files?.image);
       if (
-        await BusinessCardsService.update(req.body.id, req.user.id, { image })
+        await BusinessCardsService.update(req.params.id, req.user.id, { image })
       )
         res.sendStatus(200);
     } catch (err) {

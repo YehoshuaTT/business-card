@@ -7,7 +7,7 @@ const businessCardsRoutes = express.Router();
 businessCardsRoutes.get("/", BuissnessCardsController.index);
 
 businessCardsRoutes.use(validateToken);
-businessCardsRoutes.post("/upload", BuissnessCardsController.upload);
+businessCardsRoutes.put("/upload/:id", BuissnessCardsController.upload);
 businessCardsRoutes.get("/:id", BuissnessCardsController.show);
 businessCardsRoutes.post("/", BuissnessCardsController.create);
 businessCardsRoutes.put("/:id", BuissnessCardsController.update);
