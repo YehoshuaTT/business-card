@@ -13,6 +13,7 @@ class UserService {
       password: bcrypt.hashSync(userInfo.password, 10),
     });
   }
+
   static async login(userInfo) {
     const user = await User.findOne({ email: userInfo.email });
     if (!user) throw new Error("Not excist error");
@@ -28,6 +29,10 @@ class UserService {
 
   static async show(userId) {
     return User.findById({ userId });
+  }
+
+  static async findByMail(email) {
+    return User.findOne({ email: email });
   }
 
   static async create(userInfo) {

@@ -1,6 +1,9 @@
 require("dotenv");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
+const { OAuth2Client } = require("google-auth-library");
+const client = new OAuth2Client();
+
 const secret = process.env.SECRET;
 
 const createToken = async (userId) => {
@@ -29,4 +32,8 @@ const findUserByToken = async (token) => {
   return await User.findById(reveal.id);
 };
 
-module.exports = { createToken, validateToken, findUserByToken };
+module.exports = {
+  createToken,
+  validateToken,
+  findUserByToken,
+};
