@@ -1,6 +1,7 @@
 require("dotenv");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
+const { OAuth2Client } = require("google-auth-library");
 
 const secret = process.env.SECRET;
 
@@ -24,7 +25,22 @@ const validateToken = async (req, res, next) => {
     res.status(401).send("Unauthorized");
   }
 };
-
+const GoogleCredential = async (req, res, next) => {
+  try {
+    const client = new OAuth2Client();
+    const ticket = await client.verifyIdToken({
+      idToken: req.params.credential,
+      audience: process.env.CLIENT_ID,
+    });
+    const googleUserDetails = ticket.getPayload();
+    req.body.firstName = googleUserDetails.given_name;
+    req.body.lastName = googleUserDetails.family_name;
+    req.body.email = googleUserDetails.email;
+    next();
+  } catch (err) {
+    console.log(err);
+  }
+};
 const findUserByToken = async (token) => {
   const reveal = jwt.verify(token, secret);
   return await User.findById(reveal.id);
@@ -34,4 +50,5 @@ module.exports = {
   createToken,
   validateToken,
   findUserByToken,
+  GoogleCredential,
 };
