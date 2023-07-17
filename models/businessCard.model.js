@@ -27,13 +27,16 @@ const BusinessCardSchema = new Schema(
       type: String,
       required: true,
     },
-    BusinessType: {
+    businessType: {
       type: String,
       required: true,
     },
     webURL: {
       type: String,
       required: true,
+    },
+    image: {
+      type: String,
     },
   },
   { timestamps: true }

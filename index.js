@@ -1,7 +1,8 @@
 require("dotenv").config();
 const { mongoose } = require("mongoose");
-const vistCardsRouts = require("./routes/vistCardsRouter");
+const businessCardsRouts = require("./routes/businessCardsRouter");
 const authRouts = require("./routes/authRouter");
+const fileUpload = require("express-fileupload");
 const express = require("express");
 const cookieParser = require("cookie-parser");
 
@@ -9,6 +10,13 @@ const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
+app.use(
+  fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+  })
+);
+
+app.use(express.static("public"));
 
 mongoose
   .connect(process.env.MONGO_URL, {
@@ -22,7 +30,7 @@ mongoose
   });
 
 app.use("/auth", authRouts);
-app.use("/visitcards", vistCardsRouts);
+app.use("/businesscards", businessCardsRouts);
 const port = process.env.PORT;
 
 app.listen(port, () => {

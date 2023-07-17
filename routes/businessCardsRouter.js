@@ -4,9 +4,10 @@ const BuissnessCardsController = require("../contollers/businessCards.controller
 const { validateToken } = require("../middleware/auth");
 
 const businessCardsRoutes = express.Router();
-businessCardsRoutes.use(validateToken);
-
 businessCardsRoutes.get("/", BuissnessCardsController.index);
+
+businessCardsRoutes.use(validateToken);
+businessCardsRoutes.put("/upload/:id", BuissnessCardsController.upload);
 businessCardsRoutes.get("/:id", BuissnessCardsController.show);
 businessCardsRoutes.post("/", BuissnessCardsController.create);
 businessCardsRoutes.put("/:id", BuissnessCardsController.update);
