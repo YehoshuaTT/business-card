@@ -1,6 +1,6 @@
 const UserService = require("../services/user.service");
 const authService = require("../middleware/auth");
-const generatePassword = require("password-generator");
+const passport = require("passport");
 
 class UserClass {
   static async register(req, res) {
@@ -17,21 +17,13 @@ class UserClass {
 
   static async connectWithGoogle(req, res) {
     try {
-      let user = await UserService.findByMail(req.body.email);
-      let token;
-      if (user) {
-        token = await authService.createToken(user.id);
-      } else {
-        req.body.password = generatePassword();
-        user = await UserService.register(req.body);
-      }
+      const token = await authService.createToken(req.user.id);
       res.cookie("userId", token);
-      res.send({ user: user.toObject() });
+      res.cookie("user", req.user.toObject());
+      res.redirect("http://localhost:3000");
     } catch (err) {
       console.log(err);
-      if (err.message === "duplication error")
-        res.status(400).send("user already exists in the system");
-      else res.sendStatus(500);
+      res.sendStatus(500);
     }
   }
 

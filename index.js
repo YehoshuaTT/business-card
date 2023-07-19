@@ -1,10 +1,12 @@
 require("dotenv").config();
-const { mongoose } = require("mongoose");
+const mongoose = require("mongoose");
+const express = require("express");
+const passport = require("passport");
+const session = require("express-session");
+const fileUpload = require("express-fileupload");
+const cookieParser = require("cookie-parser");
 const businessCardsRouts = require("./routes/businessCardsRouter");
 const authRouts = require("./routes/authRouter");
-const fileUpload = require("express-fileupload");
-const express = require("express");
-const cookieParser = require("cookie-parser");
 
 const app = express();
 
@@ -17,6 +19,15 @@ app.use(
 );
 
 app.use(express.static("public"));
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+app.use(passport.session());
+app.use(passport.initialize());
 
 mongoose
   .connect(process.env.MONGO_URL, {
