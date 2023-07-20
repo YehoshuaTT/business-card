@@ -28,7 +28,7 @@ class UserService {
   }
 
   static async show(userId) {
-    return User.findById({ userId });
+    return User.findById(userId);
   }
 
   static async findByMail(email) {
