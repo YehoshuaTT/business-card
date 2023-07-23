@@ -7,7 +7,6 @@ const scope = {
 };
 
 const authRoutes = express.Router();
-
 authRoutes.use(passport.initialize());
 authRoutes.use(passport.session());
 
