@@ -10,7 +10,6 @@ const authRoutes = express.Router();
 authRoutes.use(passport.initialize());
 authRoutes.use(passport.session());
 
-authRoutes.post("/", auth.validateToken);
 authRoutes.post("/register", authController.register);
 authRoutes.post("/login", authController.login);
 authRoutes.post("/loggedcheck", auth.validateToken, authController.checkLogin);

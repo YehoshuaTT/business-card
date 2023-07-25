@@ -21,7 +21,6 @@ class UserClass {
     try {
       const token = await authService.createToken(req.user.id);
       res.cookie("userId", token);
-      res.cookie("user", req.user.toObject());
       res.redirect("http://localhost:3000");
     } catch (err) {
       console.log(err);
