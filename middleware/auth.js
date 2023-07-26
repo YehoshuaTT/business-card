@@ -1,7 +1,6 @@
 require("dotenv");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
-const passport = require("passport");
 
 const createToken = async (userId) => {
   return jwt.sign({ id: userId }, process.env.SECRET, { expiresIn: "10h" });
