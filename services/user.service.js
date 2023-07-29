@@ -20,7 +20,7 @@ class UserService {
     if (await bcrypt.compare(userInfo.password, user.password)) {
       let token = await authService.createToken(user.id);
       return { token, user };
-    }
+    } else throw new Error("Not excist error");
   }
 
   static async index() {
@@ -28,23 +28,19 @@ class UserService {
   }
 
   static async show(userId) {
-    return User.findById(userId);
+    return await User.findById(userId);
   }
 
   static async findByMail(email) {
     return User.findOne({ email: email });
   }
 
-  static async create(userInfo) {
-    return User.create({ userInfo });
-  }
-
   static async update(userId, userInfo) {
-    return User.findByIdAndUpdate(userId, { userInfo }, { new: true });
+    return User.findByIdAndUpdate(userId, { ...userInfo }, { new: true });
   }
 
   static async delete(userId) {
-    return User.findOneAndDelete({ userId });
+    return User.findByIdAndDelete(userId);
   }
 }
 module.exports = UserService;
