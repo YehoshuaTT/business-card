@@ -4,7 +4,7 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const generatePassword = require("password-generator");
 
-class UserClass {
+class UserController {
   static async register(req, res) {
     try {
       await UserService.register(req.body);
@@ -14,17 +14,6 @@ class UserClass {
       if (err.message === "duplication error")
         res.status(400).send("user already exists in the system");
       else res.sendStatus(500);
-    }
-  }
-
-  static async connectWithGoogle(req, res) {
-    try {
-      const token = await authService.createToken(req.user.id);
-      res.cookie("userId", token);
-      res.redirect("http://localhost:3000");
-    } catch (err) {
-      console.log(err);
-      res.sendStatus(500);
     }
   }
 
@@ -44,8 +33,19 @@ class UserClass {
     try {
       res.send(req.user);
     } catch (err) {
+      // console.log(err);
+      res.sendStatus(500);
+    }
+  }
+
+  static async connectWithGoogle(req, res) {
+    try {
+      const token = await authService.createToken(req.user.id);
+      res.cookie("userId", token);
+      res.redirect("http://localhost:3000");
+    } catch (err) {
+      res.sendStatus(500);
       console.log(err);
-      res.status(401).send("Unauthorized");
     }
   }
 
@@ -95,6 +95,6 @@ class UserClass {
   }
 }
 
-UserClass.setupGooglePassport();
+UserController.setupGooglePassport();
 
-module.exports = UserClass;
+module.exports = UserController;
