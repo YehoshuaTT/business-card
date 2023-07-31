@@ -1,6 +1,5 @@
 const BusinessCard = require("../models/businessCard.model");
 const path = require("path");
-const User = require("../models/user.model");
 
 class BusinessCardService {
   static async index() {
@@ -11,11 +10,10 @@ class BusinessCardService {
     return BusinessCard.findOne({ _id: businessCardId, userId });
   }
 
-  static async create(businessCard, userId) {
-    const user = await User.findById(userId);
+  static async create(businessCard, user) {
     return BusinessCard.create({
       ...businessCard,
-      userId,
+      userId: user.id,
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
@@ -23,10 +21,10 @@ class BusinessCardService {
     });
   }
 
-  static async update(businessCardId, userId, businessCard) {
+  static async update(businessCardId, userId, updates) {
     return BusinessCard.findOneAndUpdate(
       { _id: businessCardId, userId },
-      { ...businessCard },
+      { ...updates },
       { new: true }
     );
   }

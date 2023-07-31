@@ -12,7 +12,7 @@ class BusinessCardsController {
 
   static async create(req, res) {
     try {
-      res.send(await BusinessCardsService.create(req.body, req.user.id));
+      res.send(await BusinessCardsService.create(req.body, req.user));
     } catch (err) {
       console.log(err);
       res.sendStatus(500);
