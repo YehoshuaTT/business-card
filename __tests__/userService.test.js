@@ -3,35 +3,6 @@ const authService = require("../middleware/auth");
 const UserService = require("../services/user.service");
 const User = require("../models/user.model");
 
-const mockUsers = [
-  {
-    firstName: "mocka loka",
-    lastName: "chokalata",
-    password: "$2b$10$2xxatu5K3yjqCIyinkE36.1r8XjciiRdhqTRfjG2w7au6qntj8wlW",
-    email: "chau@bambino.com",
-    id: "64b0994a0d2ca02d75909a49",
-  },
-];
-
-jest.spyOn(User, "findOne").mockImplementation((query) => {
-  return mockUsers.find((user) => user.email === query.email) || null;
-});
-
-jest.spyOn(User, "create").mockImplementation((userInfo) => {
-  const user = {
-    ...userInfo,
-    id: "new_mocked_id",
-  };
-  mockUsers.push(user);
-  return user;
-});
-
-jest
-  .spyOn(User, "findById")
-  .mockImplementation((userId) => mockUsers.find((user) => user.id === userId));
-
-jest.spyOn(authService, "createToken").mockReturnValueOnce("token");
-
 describe("UserService", () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -46,6 +17,29 @@ describe("UserService", () => {
       id: "64b0994a0d2ca02d75909a49",
     };
     it("should create a new user", async () => {
+      const mockUsers = [
+        {
+          firstName: "mocka loka",
+          lastName: "chokalata",
+          password:
+            "$2b$10$2xxatu5K3yjqCIyinkE36.1r8XjciiRdhqTRfjG2w7au6qntj8wlW",
+          email: "chau@bambino.com",
+          id: "64b0994a0d2ca02d75909a49",
+        },
+      ];
+
+      jest.spyOn(User, "findOne").mockImplementation((query) => {
+        return mockUsers.find((user) => user.email === query.email) || null;
+      });
+
+      jest.spyOn(User, "create").mockImplementation((userInfo) => {
+        const user = {
+          ...userInfo,
+          id: "new_mocked_id",
+        };
+        return user;
+      });
+
       const newUser = await UserService.register(mockUser);
 
       expect(User.findOne).toHaveBeenCalledWith(
@@ -134,7 +128,14 @@ describe("UserService", () => {
 
   describe("index all users", () => {
     jest.spyOn(User, "find").mockImplementation(() => {
-      return mockUsers;
+      return {
+        firstName: "mocka loka",
+        lastName: "chokalata",
+        password:
+          "$2b$10$2xxatu5K3yjqCIyinkE36.1r8XjciiRdhqTRfjG2w7au6qntj8wlW",
+        email: "chau@bambino.com",
+        id: "64b0994a0d2ca02d75909a49",
+      };
     });
 
     let allUsers = UserService.index();
@@ -151,11 +152,16 @@ describe("UserService", () => {
 
   describe("show user", () => {
     it("should accept  user id string, and return user Object if exict", async () => {
-      jest
-        .spyOn(User, "findById")
-        .mockImplementation((userId) =>
-          mockUsers.find((user) => user.id === userId)
-        );
+      jest.spyOn(User, "findById").mockImplementation(() => {
+        return {
+          firstName: "mocka loka",
+          lastName: "chokalata",
+          password:
+            "$2b$10$2xxatu5K3yjqCIyinkE36.1r8XjciiRdhqTRfjG2w7au6qntj8wlW",
+          email: "chau@bambino.com",
+          id: "64b0994a0d2ca02d75909a49",
+        };
+      });
 
       const user = UserService.show("64b0994a0d2ca02d75909a49");
       expect(User.findById).toHaveBeenCalledWith("64b0994a0d2ca02d75909a49");
@@ -172,11 +178,16 @@ describe("UserService", () => {
 
   describe("find user ByMail", () => {
     it("should accept email string, and return user Object if exict", async () => {
-      jest
-        .spyOn(User, "findOne")
-        .mockImplementation((email) =>
-          mockUsers.find((user) => user.email === email)
-        );
+      jest.spyOn(User, "findOne").mockImplementation(() => {
+        return {
+          firstName: "mocka loka",
+          lastName: "chokalata",
+          password:
+            "$2b$10$2xxatu5K3yjqCIyinkE36.1r8XjciiRdhqTRfjG2w7au6qntj8wlW",
+          email: "chau@bambino.com",
+          id: "64b0994a0d2ca02d75909a49",
+        };
+      });
       const user = UserService.findByMail("chau@bambino.com");
 
       expect(User.findOne).toHaveBeenCalledWith({ email: "chau@bambino.com" });
