@@ -5,7 +5,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const generatePassword = require("password-generator");
 const { z } = require("zod");
 
-const UserSchema = z.object({
+const RegisterSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   password: z
@@ -15,24 +15,14 @@ const UserSchema = z.object({
   id: z.string().optional(),
 });
 
-const user = {
-  firstName: "josh",
-  lastName: "tar",
-  password: "dassd33F$#&*f1fd",
-  email: "josh@email.com",
-};
-
-try {
-  console.log(UserSchema.parse(user));
-} catch (err) {
-  console.log(err);
-}
-
 class UserController {
   static async register(req, res) {
     try {
-      await UserService.register(req.body);
-      res.sendStatus(200);
+      const zodCheck = RegisterSchema.safeParse(req.body);
+      if (zodCheck.success) {
+        await UserService.register(req.body);
+        res.sendStatus(200);
+      } else res.status(403).send(zodCheck.error);
     } catch (err) {
       console.log(err);
       if (err.message === "duplication error")
