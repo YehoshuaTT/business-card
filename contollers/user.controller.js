@@ -3,6 +3,30 @@ const authService = require("../middleware/auth");
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const generatePassword = require("password-generator");
+const { z } = require("zod");
+
+const UserSchema = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  password: z
+    .string()
+    .regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/),
+  email: z.string().email(),
+  id: z.string().optional(),
+});
+
+const user = {
+  firstName: "josh",
+  lastName: "tar",
+  password: "dassd33F$#&*f1fd",
+  email: "josh@email.com",
+};
+
+try {
+  console.log(UserSchema.parse(user));
+} catch (err) {
+  console.log(err);
+}
 
 class UserController {
   static async register(req, res) {
