@@ -1,30 +1,30 @@
 import { z } from "zod";
 import * as dotenv from "dotenv";
 dotenv.config();
-import UserService from "../services/user.service.js"; // Assuming you are exporting the UserService as a default export.
-import { createToken } from "../middleware/auth.js"; // Assuming authService is also exported as a default export.
+import UserService from "../services/user.service.js";
+import { createToken } from "../middleware/auth.js";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import generatePassword from "password-generator";
 
-// const UserSchema = z.object({
-//   firstName: z.string().require(true),
-//   lastName: z.string().require(true),
-//   password: z
-//     .string()
-//     .regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/)
-//     .require(true),
-//   email: z.email().require(true),
-//   id: z.string().require(false),
-// });
+const UserSchema = z.object({
+  firstName: z.string().require(true),
+  lastName: z.string().require(true),
+  password: z
+    .string()
+    .regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/)
+    .require(true),
+  email: z.email().require(true),
+  id: z.string().require(false),
+});
 
-// const user = {
-//   firstName: "josh",
-//   lastName: "tar",
-//   password: "dassd33F$#&*f1fd",
-//   email: "josh@email.com",
-// };
-// console.log(UserSchema.parse(user));
+const user = {
+  firstName: "josh",
+  lastName: "tar",
+  password: "dassd33F$#&*f1fd",
+  email: "josh@email.com",
+};
+console.log(UserSchema.parse(user));
 
 class UserController {
   static async register(req, res) {

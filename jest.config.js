@@ -1,14 +1,15 @@
-// jest.config.js
 module.exports = {
-  preset: "ts-jest",
   testEnvironment: "node",
-  transform: {},
+  silent: true,
+  transform: {
+    "^.+\\.(js|mjs)$": "babel-jest",
+  },
   transformIgnorePatterns: [],
-
-  // Use the module name mapper to handle imports from non-JS files, if needed
   moduleNameMapper: {
     "\\.(css|less|scss|sss|styl)$": "identity-obj-proxy",
     "\\.(gif|ttf|eot|svg)$": "<rootDir>/path/to/mock/file.js",
   },
-  moduleFileExtensions: ["js", "jsx", "json", "node"],
+  moduleFileExtensions: ["js", "mjs", "jsx", "json", "node"],
+  roots: ["<rootDir>/__tests__"],
+  testMatch: ["**/__tests__/**/*.+(ts|tsx|js)"],
 };

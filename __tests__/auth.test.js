@@ -1,16 +1,19 @@
-require("dotenv");
-const jwt = require("jsonwebtoken");
-const User = require("../models/user.model");
-const middlewere = require("../middleware/auth");
+import * as jwt from "jsonwebtoken";
+import User from "../models/user.model";
+import * as auth from "../middleware/auth";
+jest.mock("jsonwebtoken", () => ({
+  ...jest.requireActual("jsonwebtoken"),
+  sign: jest.fn().mockReturnValue("token"),
 
+  verify: jest.fn((params) => params),
+}));
 describe("auth middelwere", () => {
   describe("createToken", () => {
-    it("will accept userId & return a token", () => {
-      jest.spyOn(jwt, "sign").mockReturnValueOnce("Token");
-
-      middlewere.createToken("userId");
-
-      expect(jwt.sign).toBeCalledWith({ id: "userId" }, undefined, {
+    it("will accept userId & return a token", async () => {
+      const token = await auth.createToken("userId");
+      console.log(token);
+      expect(typeof token).toBe("string");
+      expect(jwt.sign).toBeCalledWith({ id: "userId" }, expect.anything(), {
         expiresIn: "10h",
       });
     });
@@ -25,13 +28,12 @@ describe("auth middelwere", () => {
         status: jest.fn().mockReturnThis(),
       };
       const next = jest.fn();
-      jest.spyOn(jwt, "verify").mockReturnValueOnce("userId");
 
-      await middlewere.validateToken(req, res, next);
+      await auth.validateToken(req, res, next);
 
-      expect(jwt.verify).toBeCalledWith("cookie", undefined);
+      expect(jwt.verify).toBeCalledWith("cookie", expect.anything());
       expect(next).toBeCalled();
-      expect(req.user).toBe("userId");
+      expect(req.user).toBe("cookie");
     });
 
     it("on any  fail will send 401 err", async () => {
@@ -42,8 +44,8 @@ describe("auth middelwere", () => {
         status: jest.fn().mockReturnThis(),
       };
       const next = jest.fn();
-
-      await middlewere.validateToken(req, res, next);
+      console.log("asfdga");
+      await auth.validateToken(req, res, next);
 
       expect(res.status).toBeCalledWith(401);
       expect(res.send).toBeCalledWith("Unauthorized");
@@ -55,9 +57,9 @@ describe("auth middelwere", () => {
       jest.spyOn(jwt, "verify").mockReturnValueOnce({ id: "userId" });
       jest.spyOn(User, "findById").mockReturnValueOnce({ user: "userObject" });
 
-      await middlewere.findUserByToken("token");
+      await auth.findUserByToken("token");
 
-      expect(jwt.verify).toBeCalledWith("token", undefined);
+      expect(jwt.verify).toBeCalledWith("token", expect.anything());
       expect(User.findById).toBeCalledWith("userId");
     });
   });

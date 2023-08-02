@@ -1,5 +1,6 @@
-const BusinessCardsService = require("../services/businessCards.service");
-const BusinessCardsController = require("../contollers/businessCards.controller");
+import BusinessCardsController from "../contollers/businessCards.controller.js";
+import BusinessCardService from "../services/businessCards.service.js";
+
 describe("BusinessCard controller", () => {
   describe("indexCard controller", () => {
     const req = {};
@@ -10,18 +11,18 @@ describe("BusinessCard controller", () => {
 
     it("will accept nothing, & return all business cards", async () => {
       jest
-        .spyOn(BusinessCardsService, "index")
+        .spyOn(BusinessCardService, "index")
         .mockReturnValueOnce({ cardA: "cardA", cardB: "cardB" });
       await BusinessCardsController.index(req, res);
-      expect(BusinessCardsService.index).toHaveBeenCalledWith();
+      expect(BusinessCardService.index).toHaveBeenCalledWith();
       expect(res.send).toHaveBeenCalledWith({ cardA: "cardA", cardB: "cardB" });
     });
     it("will throw 500 on failed attempt", async () => {
       jest
-        .spyOn(BusinessCardsService, "index")
+        .spyOn(BusinessCardService, "index")
         .mockRejectedValueOnce(new Error());
       await BusinessCardsController.index(req, res);
-      expect(BusinessCardsService.index).toHaveBeenCalledWith();
+      expect(BusinessCardService.index).toHaveBeenCalledWith();
       expect(res.sendStatus).toHaveBeenCalledWith(500);
     });
   });
@@ -36,16 +37,16 @@ describe("BusinessCard controller", () => {
 
     it("will accept card & user object, & return a business card", async () => {
       jest
-        .spyOn(BusinessCardsService, "create")
+        .spyOn(BusinessCardService, "create")
         .mockReturnValueOnce({ cardA: "cardA" });
       await BusinessCardsController.create(req, res);
-      expect(BusinessCardsService.create).toHaveBeenCalledWith("card", "user");
+      expect(BusinessCardService.create).toHaveBeenCalledWith("card", "user");
       expect(res.send).toHaveBeenCalledWith({ cardA: "cardA" });
       expect(res.send).toHaveBeenCalledWith(expect.any(Object));
     });
     it("will throw 500 on failed attempt", async () => {
       jest
-        .spyOn(BusinessCardsService, "create")
+        .spyOn(BusinessCardService, "create")
         .mockRejectedValueOnce(new Error());
       await BusinessCardsController.create(req, res);
       expect(res.sendStatus).toHaveBeenCalledWith(500);
@@ -62,15 +63,15 @@ describe("BusinessCard controller", () => {
 
     it("will accept cardId & user object, & return a business card", async () => {
       jest
-        .spyOn(BusinessCardsService, "show")
+        .spyOn(BusinessCardService, "show")
         .mockReturnValueOnce({ cardA: "cardA" });
       await BusinessCardsController.show(req, res);
-      expect(BusinessCardsService.show).toHaveBeenCalledWith("cardId", "user");
+      expect(BusinessCardService.show).toHaveBeenCalledWith("cardId", "user");
       expect(res.send).toHaveBeenCalledWith({ cardA: "cardA" });
       expect(res.send).toHaveBeenCalledWith(expect.any(Object));
     });
     it("will throw 500 on failed attempt", async () => {
-      BusinessCardsService.show.mockRejectedValueOnce(new Error());
+      BusinessCardService.show.mockRejectedValueOnce(new Error());
 
       await BusinessCardsController.show(req, res);
       expect(res.sendStatus).toHaveBeenCalledWith(500);
@@ -91,10 +92,10 @@ describe("BusinessCard controller", () => {
 
     it("will accept cardId & user object, & return a business card", async () => {
       jest
-        .spyOn(BusinessCardsService, "update")
+        .spyOn(BusinessCardService, "update")
         .mockReturnValueOnce({ cardA: "cardA" });
       await BusinessCardsController.update(req, res);
-      expect(BusinessCardsService.update).toHaveBeenCalledWith(
+      expect(BusinessCardService.update).toHaveBeenCalledWith(
         "cardId",
         "user",
         {
@@ -106,7 +107,7 @@ describe("BusinessCard controller", () => {
     });
     it("will throw 500 on failed attempt", async () => {
       jest
-        .spyOn(BusinessCardsService, "update")
+        .spyOn(BusinessCardService, "update")
         .mockRejectedValueOnce(new Error());
       await BusinessCardsController.update(req, res);
       expect(res.sendStatus).toHaveBeenCalledWith(500);
@@ -122,17 +123,14 @@ describe("BusinessCard controller", () => {
     };
 
     it("will accept cardId & user object, & return ", async () => {
-      jest.spyOn(BusinessCardsService, "delete").mockReturnValueOnce(true);
+      jest.spyOn(BusinessCardService, "delete").mockReturnValueOnce(true);
       await BusinessCardsController.delete(req, res);
-      expect(BusinessCardsService.delete).toHaveBeenCalledWith(
-        "cardId",
-        "user"
-      );
+      expect(BusinessCardService.delete).toHaveBeenCalledWith("cardId", "user");
       expect(res.send).toHaveBeenCalled();
     });
     it("will throw 500 on failed attempt", async () => {
       jest
-        .spyOn(BusinessCardsService, "delete")
+        .spyOn(BusinessCardService, "delete")
         .mockRejectedValueOnce(new Error());
       await BusinessCardsController.delete(req, res);
       expect(res.sendStatus).toHaveBeenCalledWith(500);
@@ -167,16 +165,16 @@ describe("BusinessCard controller", () => {
         status: jest.fn().mockReturnThis(),
         sendStatus: jest.fn(),
       };
-      jest.spyOn(BusinessCardsService, "update").mockReturnValue(true);
+      jest.spyOn(BusinessCardService, "update").mockReturnValue(true);
 
       jest
-        .spyOn(BusinessCardsService, "upload")
+        .spyOn(BusinessCardService, "upload")
         .mockReturnValue("lhost/uploads/mockImalocage.jpg");
 
       await BusinessCardsController.upload(req, res);
 
-      expect(BusinessCardsService.upload).toHaveBeenCalledWith(req.files.image);
-      expect(BusinessCardsService.update).toHaveBeenCalledWith(
+      expect(BusinessCardService.upload).toHaveBeenCalledWith(req.files.image);
+      expect(BusinessCardService.update).toHaveBeenCalledWith(
         "businessCardId",
         "userId",
         { image: "lhost/uploads/mockImalocage.jpg" }
@@ -195,13 +193,13 @@ describe("BusinessCard controller", () => {
         sendStatus: jest.fn(),
       };
 
-      BusinessCardsService.upload.mockRejectedValueOnce(
+      BusinessCardService.upload.mockRejectedValueOnce(
         new Error("Upload error")
       );
 
       await BusinessCardsController.upload(req, res);
 
-      expect(BusinessCardsService.upload).toHaveBeenCalledWith(req.files.image);
+      expect(BusinessCardService.upload).toHaveBeenCalledWith(req.files.image);
       expect(res.sendStatus).toHaveBeenCalledWith(500);
     });
   });

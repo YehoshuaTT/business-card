@@ -1,5 +1,6 @@
-import dotenv from "dotenv";
-import jwt from "jsonwebtoken";
+import * as dotenv from "dotenv";
+dotenv.config();
+import * as jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
 
 const createToken = async (userId) => {

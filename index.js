@@ -1,5 +1,3 @@
-import * as dotenv from "dotenv";
-dotenv.config();
 import mongoose from "mongoose";
 import express from "express";
 import passport from "passport";

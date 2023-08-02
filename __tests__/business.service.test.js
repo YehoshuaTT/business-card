@@ -1,5 +1,5 @@
-const BusinessCard = require("../models/businessCard.model");
-const BusinessCardService = require("../services/businessCards.service");
+import BusinessCard from "../models/businessCard.model.js";
+import BusinessCardService from "../services/businessCards.service.js";
 
 describe("BusinessCard service", () => {
   describe("indexCards service", () => {

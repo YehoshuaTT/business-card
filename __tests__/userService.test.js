@@ -1,7 +1,7 @@
-const bcrypt = require("bcrypt");
-const authService = require("../middleware/auth");
-const UserService = require("../services/user.service");
-const User = require("../models/user.model");
+import bcrypt from "bcrypt";
+import * as authService from "../middleware/auth.js";
+import UserService from "../services/user.service.js";
+import User from "../models/user.model.js";
 
 describe("UserService", () => {
   afterEach(() => {
