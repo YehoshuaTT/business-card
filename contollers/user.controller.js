@@ -1,8 +1,30 @@
-const UserService = require("../services/user.service");
-const authService = require("../middleware/auth");
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const generatePassword = require("password-generator");
+import { z } from "zod";
+import * as dotenv from "dotenv";
+dotenv.config();
+import UserService from "../services/user.service.js"; // Assuming you are exporting the UserService as a default export.
+import { createToken } from "../middleware/auth.js"; // Assuming authService is also exported as a default export.
+import passport from "passport";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import generatePassword from "password-generator";
+
+// const UserSchema = z.object({
+//   firstName: z.string().require(true),
+//   lastName: z.string().require(true),
+//   password: z
+//     .string()
+//     .regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/)
+//     .require(true),
+//   email: z.email().require(true),
+//   id: z.string().require(false),
+// });
+
+// const user = {
+//   firstName: "josh",
+//   lastName: "tar",
+//   password: "dassd33F$#&*f1fd",
+//   email: "josh@email.com",
+// };
+// console.log(UserSchema.parse(user));
 
 class UserController {
   static async register(req, res) {
@@ -33,14 +55,14 @@ class UserController {
     try {
       res.send(req.user);
     } catch (err) {
-      // console.log(err);
       res.sendStatus(500);
+      console.log(err);
     }
   }
 
   static async connectWithGoogle(req, res) {
     try {
-      const token = await authService.createToken(req.user.id);
+      const token = await createToken(req.user.id);
       res.cookie("userId", token);
       res.redirect("http://localhost:3000");
     } catch (err) {
@@ -97,4 +119,4 @@ class UserController {
 
 UserController.setupGooglePassport();
 
-module.exports = UserController;
+export default UserController;

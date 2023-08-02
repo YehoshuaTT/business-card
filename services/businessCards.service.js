@@ -1,6 +1,5 @@
-const BusinessCard = require("../models/businessCard.model");
-const path = require("path");
-
+import BusinessCard from "../models/businessCard.model.js";
+import path from "path";
 class BusinessCardService {
   static async index() {
     return BusinessCard.find({});
@@ -40,4 +39,4 @@ class BusinessCardService {
   }
 }
 
-module.exports = BusinessCardService;
+export default BusinessCardService;

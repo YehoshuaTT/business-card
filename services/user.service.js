@@ -1,7 +1,6 @@
-const bcrypt = require("bcrypt");
-const authService = require("../middleware/auth");
-
-const User = require("../models/user.model");
+import bcrypt from "bcrypt";
+import { createToken } from "../middleware/auth.js";
+import User from "../models/user.model.js";
 
 class UserService {
   static async register(userInfo) {
@@ -18,7 +17,7 @@ class UserService {
     const user = await User.findOne({ email: userInfo.email });
     if (!user) throw new Error("Not excist error");
     if (await bcrypt.compare(userInfo.password, user.password)) {
-      let token = await authService.createToken(user.id);
+      let token = await createToken(user.id);
       return { token, user };
     } else throw new Error("Not excist error");
   }
@@ -43,4 +42,4 @@ class UserService {
     return User.findByIdAndDelete(userId);
   }
 }
-module.exports = UserService;
+export default UserService;

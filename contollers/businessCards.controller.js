@@ -1,4 +1,4 @@
-const BusinessCardsService = require("../services/businessCards.service");
+import BusinessCardsService from "../services/businessCards.service.js";
 
 class BusinessCardsController {
   static async index(req, res) {
@@ -65,4 +65,4 @@ class BusinessCardsController {
   }
 }
 
-module.exports = BusinessCardsController;
+export default BusinessCardsController;

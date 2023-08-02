@@ -1,6 +1,6 @@
-require("dotenv");
-const jwt = require("jsonwebtoken");
-const User = require("../models/user.model");
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+import User from "../models/user.model.js";
 
 const createToken = async (userId) => {
   return jwt.sign({ id: userId }, process.env.SECRET, { expiresIn: "10h" });
@@ -24,8 +24,4 @@ const findUserByToken = async (token) => {
   return await User.findById(reveal.id);
 };
 
-module.exports = {
-  createToken,
-  validateToken,
-  findUserByToken,
-};
+export { createToken, validateToken, findUserByToken };

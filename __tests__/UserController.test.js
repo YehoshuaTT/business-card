@@ -1,6 +1,6 @@
 const dotenv = require("dotenv");
 dotenv.config();
-const UserController = require("../contollers/user.controller");
+const UserController = require("../contollers/user.controller.js");
 const UserService = require("../services/user.service");
 const User = require("../models/user.model");
 const authService = require("../middleware/auth");

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const BusinessCardSchema = new Schema(
@@ -44,4 +44,4 @@ const BusinessCardSchema = new Schema(
 
 const BusinessCard = mongoose.model("BusinessCard", BusinessCardSchema);
 
-module.exports = BusinessCard;
+export default BusinessCard;

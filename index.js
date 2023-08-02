@@ -1,12 +1,13 @@
-require("dotenv").config();
-const mongoose = require("mongoose");
-const express = require("express");
-const passport = require("passport");
-const session = require("express-session");
-const fileUpload = require("express-fileupload");
-const cookieParser = require("cookie-parser");
-const businessCardsRouts = require("./routes/businessCardsRouter");
-const authRouts = require("./routes/authRouter");
+import * as dotenv from "dotenv";
+dotenv.config();
+import mongoose from "mongoose";
+import express from "express";
+import passport from "passport";
+import session from "express-session";
+import fileUpload from "express-fileupload";
+import cookieParser from "cookie-parser";
+import businessCardsRoutes from "./routes/businessCardsRouter.js";
+import authRoutes from "./routes/authRouter.js";
 
 const app = express();
 
@@ -40,12 +41,12 @@ mongoose
     console.error("Failed to connect to MongoDB:", error);
   });
 
-app.use("/auth", authRouts);
-app.use("/businesscards", businessCardsRouts);
+app.use("/auth", authRoutes);
+app.use("/businesscards", businessCardsRoutes);
 const port = process.env.PORT;
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-module.exports = { app };
+export default app;

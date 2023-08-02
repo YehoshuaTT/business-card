@@ -1,16 +1,15 @@
-const express = require("express");
-
-const BuissnessCardsController = require("../contollers/businessCards.controller");
-const { validateToken } = require("../middleware/auth");
+import express from "express";
+import BusinessCardsController from "../contollers/businessCards.controller.js";
+import { validateToken } from "../middleware/auth.js";
 
 const businessCardsRoutes = express.Router();
-businessCardsRoutes.get("/", BuissnessCardsController.index);
+businessCardsRoutes.get("/", BusinessCardsController.index);
 
 businessCardsRoutes.use(validateToken);
-businessCardsRoutes.put("/upload/:id", BuissnessCardsController.upload);
-businessCardsRoutes.get("/:id", BuissnessCardsController.show);
-businessCardsRoutes.post("/", BuissnessCardsController.create);
-businessCardsRoutes.put("/:id", BuissnessCardsController.update);
-businessCardsRoutes.delete("/:id", BuissnessCardsController.delete);
+businessCardsRoutes.put("/upload/:id", BusinessCardsController.upload);
+businessCardsRoutes.get("/:id", BusinessCardsController.show);
+businessCardsRoutes.post("/", BusinessCardsController.create);
+businessCardsRoutes.put("/:id", BusinessCardsController.update);
+businessCardsRoutes.delete("/:id", BusinessCardsController.delete);
 
-module.exports = businessCardsRoutes;
+export default businessCardsRoutes;
