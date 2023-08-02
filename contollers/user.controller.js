@@ -8,14 +8,13 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import generatePassword from "password-generator";
 
 const UserSchema = z.object({
-  firstName: z.string().require(true),
-  lastName: z.string().require(true),
+  firstName: z.string(),
+  lastName: z.string(),
   password: z
     .string()
-    .regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/)
-    .require(true),
-  email: z.email().require(true),
-  id: z.string().require(false),
+    .regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/),
+  email: z.string().email(),
+  id: z.string().optional(),
 });
 
 const user = {
@@ -24,8 +23,12 @@ const user = {
   password: "dassd33F$#&*f1fd",
   email: "josh@email.com",
 };
-console.log(UserSchema.parse(user));
 
+try {
+  console.log(UserSchema.parse(user));
+} catch (err) {
+  console.log(err);
+}
 class UserController {
   static async register(req, res) {
     try {

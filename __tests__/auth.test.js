@@ -44,7 +44,6 @@ describe("auth middelwere", () => {
         status: jest.fn().mockReturnThis(),
       };
       const next = jest.fn();
-      console.log("asfdga");
       await auth.validateToken(req, res, next);
 
       expect(res.status).toBeCalledWith(401);
