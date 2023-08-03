@@ -3,29 +3,31 @@ const authService = require("../middleware/auth");
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const generatePassword = require("password-generator");
+const { z } = require("zod");
 
-class UserClass {
+const RegisterSchema = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  password: z
+    .string()
+    .regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/),
+  email: z.string().email(),
+  id: z.string().optional(),
+});
+
+class UserController {
   static async register(req, res) {
     try {
-      await UserService.register(req.body);
-      res.sendStatus(200);
+      const zodCheck = RegisterSchema.safeParse(req.body);
+      if (zodCheck.success) {
+        await UserService.register(req.body);
+        res.sendStatus(200);
+      } else res.status(400).send(zodCheck.error);
     } catch (err) {
       console.log(err);
       if (err.message === "duplication error")
         res.status(400).send("user already exists in the system");
       else res.sendStatus(500);
-    }
-  }
-
-  static async connectWithGoogle(req, res) {
-    try {
-      const token = await authService.createToken(req.user.id);
-      res.cookie("userId", token);
-      res.cookie("user", req.user.toObject());
-      res.redirect("http://localhost:3000");
-    } catch (err) {
-      console.log(err);
-      res.sendStatus(500);
     }
   }
 
@@ -45,8 +47,19 @@ class UserClass {
     try {
       res.send(req.user);
     } catch (err) {
+      // console.log(err);
+      res.sendStatus(500);
+    }
+  }
+
+  static async connectWithGoogle(req, res) {
+    try {
+      const token = await authService.createToken(req.user.id);
+      res.cookie("userId", token);
+      res.redirect("http://localhost:3000");
+    } catch (err) {
+      res.sendStatus(500);
       console.log(err);
-      res.status(401).send("Unauthorized");
     }
   }
 
@@ -96,6 +109,6 @@ class UserClass {
   }
 }
 
-UserClass.setupGooglePassport();
+UserController.setupGooglePassport();
 
-module.exports = UserClass;
+module.exports = UserController;

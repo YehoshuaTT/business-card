@@ -1,7 +1,6 @@
 require("dotenv");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
-const passport = require("passport");
 
 const createToken = async (userId) => {
   return jwt.sign({ id: userId }, process.env.SECRET, { expiresIn: "10h" });
@@ -10,11 +9,7 @@ const createToken = async (userId) => {
 const validateToken = async (req, res, next) => {
   try {
     const cookie = req.cookies.userId;
-    if (!cookie) return res.sendStatus(401);
-
-    const user = await findUserByToken(cookie);
-    if (!user) return res.sendStatus(401);
-
+    const user = jwt.verify(cookie, process.env.SECRET);
     req.user = user;
 
     next();
