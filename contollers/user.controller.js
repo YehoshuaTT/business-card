@@ -22,7 +22,7 @@ class UserController {
       if (zodCheck.success) {
         await UserService.register(req.body);
         res.sendStatus(200);
-      } else res.status(403).send(zodCheck.error);
+      } else res.status(400).send(zodCheck.error);
     } catch (err) {
       console.log(err);
       if (err.message === "duplication error")

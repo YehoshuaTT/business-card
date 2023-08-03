@@ -26,7 +26,9 @@ describe("User controler", () => {
   describe("register a user", () => {
     let mockUser = new User({
       email: "user@gmail.com",
-      password: "password",
+      password: "Password12#$",
+      firstName: "the",
+      lastName: "man",
     });
 
     const req = {
@@ -47,16 +49,16 @@ describe("User controler", () => {
 
     it("should return status 500 on server fail", async () => {
       const req = {
-        body: null,
+        body: mockUser,
       };
       const res = {
         sendStatus: jest.fn(),
       };
-
       UserService.register.mockRejectedValueOnce(new Error("internal Error"));
 
       await UserController.register(req, res);
       expect(res.sendStatus).toHaveBeenCalledWith(500);
+      jest.clearAllMocks();
     });
 
     it("should return status 400 if user is already registered", async () => {
@@ -68,10 +70,9 @@ describe("User controler", () => {
         sendStatus: jest.fn(),
         send: jest.fn(),
       };
-
-      UserService.register.mockRejectedValueOnce(
-        new Error("duplication error")
-      );
+      jest.spyOn(UserService, "register").mockImplementation(() => {
+        throw new Error("duplication error");
+      });
 
       await UserController.register(req, res);
 
@@ -109,6 +110,7 @@ describe("User controler", () => {
         email: "user@gmail.com",
         password: "password",
       });
+      expect(UserService.login).toReturnWith(expect.any(Object));
       expect(res.cookie).toHaveBeenCalledWith("userId", "userToken");
       expect(res.send).toHaveBeenCalledWith({
         user: {

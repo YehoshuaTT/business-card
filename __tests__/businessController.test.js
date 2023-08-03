@@ -27,7 +27,16 @@ describe("BusinessCard controller", () => {
   });
 
   describe("createCard controller", () => {
-    const req = { body: "card", user: "user" };
+    const req = {
+      body: {
+        businessType: "BT",
+        webURL: "https://www.aaa.com",
+        email: "user@email.com",
+        phoneNumber: "0524152634",
+      },
+      user: "user",
+    };
+
     const res = {
       sendStatus: jest.fn(),
       status: jest.fn(() => res),
@@ -39,7 +48,15 @@ describe("BusinessCard controller", () => {
         .spyOn(BusinessCardsService, "create")
         .mockReturnValueOnce({ cardA: "cardA" });
       await BusinessCardsController.create(req, res);
-      expect(BusinessCardsService.create).toHaveBeenCalledWith("card", "user");
+      expect(BusinessCardsService.create).toHaveBeenCalledWith(
+        {
+          businessType: "BT",
+          webURL: "https://www.aaa.com",
+          email: "user@email.com",
+          phoneNumber: "0524152634",
+        },
+        "user"
+      );
       expect(res.send).toHaveBeenCalledWith({ cardA: "cardA" });
       expect(res.send).toHaveBeenCalledWith(expect.any(Object));
     });
