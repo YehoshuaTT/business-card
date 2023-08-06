@@ -5,12 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm --prefix client run build",
-    "start": "npm --prefix server start"
+    "build": "npm run build --prefix client",
+    "start": "npm run start --prefix server"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/YehoshuaTT/business-card.git"
+  },
+  "engines": {
+    "node": "18.x"
   },
   "author": "",
   "license": "ISC",
