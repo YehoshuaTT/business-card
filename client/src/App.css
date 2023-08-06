@@ -1,0 +1,67 @@
+.App {
+  text-align: center;
+}
+
+.main-cards-container {
+  padding: 15px;
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.toggle {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  align-items: center;
+}
+
+.all-cards {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  /* height: 100%; */
+}
+.cardoutline {
+  margin: 5px;
+  border-radius: 0.4em;
+  width: 340px;
+  padding: 0.05em;
+  border: rgba(0, 0, 0, 0.286) 1px solid;
+}
+.dropzone {
+  height: 75px;
+  border: solid 2px rgb(176, 173, 173);
+  border-radius: 0.25em;
+}
+
+.dropzone:hover {
+  border: solid 3px rgb(119, 116, 116);
+  background-color: rgb(249, 236, 221);
+}
+.dropzone:crroser {
+  border: solid 3px rgb(119, 116, 116);
+  background-color: rgb(249, 236, 221);
+}
+.user-icon:hover {
+  border: solid rgb(30, 64, 152) 4px;
+  border-radius: 50%;
+}
+
+#google-header {
+  margin-right: 10%;
+  width: 200px;
+}
+#google-header-login {
+  visibility: hidden;
+  margin-right: 10%;
+  visibility: hidden;
+}
