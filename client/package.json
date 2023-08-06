@@ -22,6 +22,7 @@
     "react-router-dom": "^6.14.1",
     "react-scripts": "5.0.1",
     "react-social-login-buttons": "^3.9.1",
+    "reactjs-social-login": "^2.6.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -36,6 +37,7 @@
       "react-app/jest"
     ]
   },
+  "proxy": "http://localhost:4000",
   "browserslist": {
     "production": [
       ">0.2%",

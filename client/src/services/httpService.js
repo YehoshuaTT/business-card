@@ -1,13 +1,9 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:4000";
 class HttpService {
   static async login(registerOrLogin, user) {
     try {
-      const response = await axios.post(
-        `${baseUrl}/auth/${registerOrLogin}/`,
-        user
-      );
+      const response = await axios.post(`/auth/${registerOrLogin}/`, user);
       if (response.status === 200) return true;
     } catch (error) {
       if (error.response.data === "user already exists in the system")
@@ -18,7 +14,7 @@ class HttpService {
 
   static async autorized() {
     try {
-      const { data } = await axios.post(`${baseUrl}/auth/loggedcheck`);
+      const { data } = await axios.post(`/auth/loggedcheck`);
       if (data) return data;
       else return null;
     } catch (error) {
@@ -29,7 +25,7 @@ class HttpService {
 class BusinessCardService {
   static async index() {
     try {
-      const { data } = await axios.get(`${baseUrl}/businesscards/`);
+      const { data } = await axios.get(`/businesscards/`);
       return data;
     } catch (error) {
       console.log(error);
@@ -38,9 +34,7 @@ class BusinessCardService {
 
   static async Show(businessCardId) {
     try {
-      const { data } = await axios.get(
-        `${baseUrl}/businesscards/${businessCardId}`
-      );
+      const { data } = await axios.get(`/businesscards/${businessCardId}`);
       return data;
     } catch (error) {
       console.log(error);
@@ -49,10 +43,7 @@ class BusinessCardService {
 
   static async create(businessCardInfo) {
     try {
-      const { data } = await axios.post(
-        `${baseUrl}/businesscards`,
-        businessCardInfo
-      );
+      const { data } = await axios.post(`/businesscards`, businessCardInfo);
       return data;
     } catch (error) {
       console.log(error);
@@ -62,7 +53,7 @@ class BusinessCardService {
   static async update(businessCardId, update) {
     try {
       const { data } = await axios.put(
-        `${baseUrl}/businesscards/${businessCardId}`,
+        `/businesscards/${businessCardId}`,
         update
       );
       return data;
@@ -73,9 +64,7 @@ class BusinessCardService {
 
   static async delete(businessCardId) {
     try {
-      const { data } = await axios.delete(
-        `${baseUrl}/businesscards/${businessCardId}`
-      );
+      const { data } = await axios.delete(`/businesscards/${businessCardId}`);
       return data;
     } catch (error) {
       console.log(error);
@@ -83,12 +72,7 @@ class BusinessCardService {
   }
   static async upload(businessCardId, image) {
     try {
-      if (
-        await axios.put(
-          `${baseUrl}/businesscards/upload/${businessCardId}`,
-          image
-        )
-      )
+      if (await axios.put(`/businesscards/upload/${businessCardId}`, image))
         return true;
     } catch (error) {
       console.log(error);
