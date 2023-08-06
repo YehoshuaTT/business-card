@@ -7,6 +7,7 @@ const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const businessCardsRouts = require("./routes/businessCardsRouter");
 const authRouts = require("./routes/authRouter");
+const path = require("path");
 
 const app = express();
 
@@ -19,6 +20,8 @@ app.use(
 );
 
 app.use(express.static("public"));
+app.use(express.static("dist"));
+
 app.use(
   session({
     secret: process.env.SECRET,
@@ -42,6 +45,9 @@ mongoose
 
 app.use("/auth", authRouts);
 app.use("/businesscards", businessCardsRouts);
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "dist", "index.html"))
+})
 const port = process.env.PORT;
 
 app.listen(port, () => {
