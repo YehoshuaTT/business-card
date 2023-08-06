@@ -56,7 +56,7 @@ class UserController {
     try {
       const token = await authService.createToken(req.user.id);
       res.cookie("userId", token);
-      res.redirect("http://localhost:3000");
+      res.redirect("/");
     } catch (err) {
       res.sendStatus(500);
       console.log(err);
