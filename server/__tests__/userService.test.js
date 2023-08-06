@@ -1,10 +1,9 @@
 const bcrypt = require("bcrypt");
-const authService = require("../middleware/auth");
 const UserService = require("../services/user.service");
 const User = require("../models/user.model");
 
 describe("UserService", () => {
-  afterEach(() => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 
@@ -78,8 +77,14 @@ describe("UserService", () => {
     };
     it("should return user object and token on successful login", async () => {
       jest.spyOn(bcrypt, "compare").mockReturnValueOnce(true);
-      jest.spyOn(authService, "createToken").mockReturnValueOnce("token");
-
+      jest.spyOn(User, "findOne").mockReturnValueOnce({
+        firstName: "mocka loka",
+        lastName: "chokalata",
+        password:
+          "$2b$10$2xxatu5K3yjqCIyinkE36.1r8XjciiRdhqTRfjG2w7au6qntj8wlW",
+        email: "chau@bambino.com",
+        id: "64b0994a0d2ca02d75909a49",
+      });
       const loginResult = await UserService.login(mockUserInfo);
 
       expect(User.findOne).toHaveBeenCalledWith({
@@ -90,9 +95,6 @@ describe("UserService", () => {
         "$2b$10$2xxatu5K3yjqCIyinkE36.1r8XjciiRdhqTRfjG2w7au6qntj8wlW"
       );
 
-      expect(authService.createToken).toHaveBeenCalledWith(
-        "64b0994a0d2ca02d75909a49"
-      );
       expect(typeof loginResult).toBe("object");
       expect(typeof loginResult.token).toBe("string");
       expect(loginResult.user.email).toBe("chau@bambino.com");

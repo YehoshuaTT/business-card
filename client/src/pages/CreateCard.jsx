@@ -40,7 +40,9 @@ export default function CreateCard() {
       setErrMsg("Please fix the Phone input");
       return;
     }
-    if (!Validations.webAddress(cardInfo.get("webURL"))) {
+    const url = Validations.webAddress(cardInfo.get("webURL"));
+    if (url) cardInfo.append("webURL", url);
+    else {
       setErrMsg("Website address is missing");
       return;
     }

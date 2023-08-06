@@ -30,7 +30,6 @@ function App() {
     <div className="app">
       <BrowserRouter>
         <Header authorized={authorized} setAuthorized={setAuthorized} />
-
         <Routes>
           <Route
             path="/"

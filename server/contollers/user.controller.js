@@ -79,7 +79,7 @@ class UserController {
         {
           clientID: process.env.CLIENT_ID,
           clientSecret: process.env.CLIENT_SECRET,
-          callbackURL: "/auth/google/callback",
+          callbackURL: "/api/auth/google/callback",
         },
         async (accessToken, refreshToken, profile, done) => {
           try {

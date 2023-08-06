@@ -10,7 +10,8 @@
       "runtimeArgs": ["run-script", "test"],
       "runtimeExecutable": "npm",
       "skipFiles": ["<node_internals>/**"],
-      "type": "node"
+      "type": "node",
+      "cwd": "${workspaceFolder}/server"
     },
     {
       "name": "dev server",
@@ -18,7 +19,8 @@
       "runtimeArgs": ["run-script", "dev"],
       "runtimeExecutable": "npm",
       "skipFiles": ["<node_internals>/**"],
-      "type": "node"
+      "type": "node",
+      "cwd": "${workspaceFolder}/server"
     },
     {
       "command": "npm start",

@@ -7,11 +7,15 @@ import { useLocation } from "react-router-dom";
 function Header({ authorized, setAuthorized }) {
   const [showGoogleButton, setShowGoogleButton] = useState(true);
   const location = useLocation();
+  const currentPath = location.pathname;
+
   useEffect(() => {
-    const currentPath = location.pathname;
-    if (currentPath === "/login/register" || currentPath === "/login")
+    if (currentPath === "/login/register" || currentPath === "/login") {
       setShowGoogleButton(false);
-  }, [location]);
+    } else {
+      setShowGoogleButton(true);
+    }
+  }, [currentPath]);
 
   return (
     <div className="header">

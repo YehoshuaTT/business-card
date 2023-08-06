@@ -6,9 +6,6 @@ class Validations {
 
   static webAddress(website) {
     const websiteRegex = /^(https?:\/\/)?(www\.)?([^\s.]+\.)*[^\s]{2,}$/i;
-    if (!website.match(/^https?:\/\//)) {
-      website = "https://" + website;
-    }
     return websiteRegex.test(website);
   }
 

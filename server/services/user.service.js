@@ -1,7 +1,8 @@
 const bcrypt = require("bcrypt");
-const authService = require("../middleware/auth");
+require("dotenv").config();
 
 const User = require("../models/user.model");
+const { createToken } = require("../middleware/auth.js");
 
 class UserService {
   static async register(userInfo) {
@@ -18,7 +19,7 @@ class UserService {
     const user = await User.findOne({ email: userInfo.email });
     if (!user) throw new Error("Not excist error");
     if (await bcrypt.compare(userInfo.password, user.password)) {
-      let token = await authService.createToken(user.id);
+      let token = await createToken(user.id);
       return { token, user };
     } else throw new Error("Not excist error");
   }

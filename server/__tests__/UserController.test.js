@@ -1,5 +1,4 @@
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 const UserController = require("../contollers/user.controller");
 const UserService = require("../services/user.service");
 const User = require("../models/user.model");
@@ -145,7 +144,7 @@ describe("User controler", () => {
       const res = {
         req: req,
         send: jest.fn(),
-        status: jest.fn(() => res),
+        status: jest.fn().mockReturnThis(),
         body: jest.fn(),
       };
 
@@ -176,7 +175,7 @@ describe("User controler", () => {
     };
     const res = {
       redirect: jest.fn(),
-      status: jest.fn(() => res),
+      status: jest.fn().mockReturnThis(),
       sendStatus: jest.fn(),
       cookie: jest.fn(),
     };

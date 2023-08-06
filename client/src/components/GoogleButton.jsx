@@ -8,7 +8,7 @@ function GoogleButton({ authorized, setAuthorized }) {
       Cookies.remove("userId");
       setAuthorized(false);
     } else {
-      window.location.href = "/auth/google";
+      window.location.href = "/api/auth/google";
       if (Cookies.get("userId")) setAuthorized(true);
     }
   };

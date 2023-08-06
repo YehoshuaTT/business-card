@@ -3,7 +3,7 @@ import axios from "axios";
 class HttpService {
   static async login(registerOrLogin, user) {
     try {
-      const response = await axios.post(`/auth/${registerOrLogin}/`, user);
+      const response = await axios.post(`/api/auth/${registerOrLogin}/`, user);
       if (response.status === 200) return true;
     } catch (error) {
       if (error.response.data === "user already exists in the system")
@@ -14,7 +14,7 @@ class HttpService {
 
   static async autorized() {
     try {
-      const { data } = await axios.post(`/auth/loggedcheck`);
+      const { data } = await axios.post(`/api/auth/loggedcheck`);
       if (data) return data;
       else return null;
     } catch (error) {

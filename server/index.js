@@ -43,9 +43,9 @@ mongoose
     console.error("Failed to connect to MongoDB:", error);
   });
 
-app.use("/auth", authRouts);
+app.use("/api/auth", authRouts);
 app.use("/businesscards", businessCardsRouts);
-app.get("/*", (req, res) => {
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 const port = process.env.PORT;
