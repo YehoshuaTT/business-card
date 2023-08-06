@@ -6,7 +6,11 @@ class Validations {
 
   static webAddress(website) {
     const websiteRegex = /^(https?:\/\/)?(www\.)?([^\s.]+\.)*[^\s]{2,}$/i;
-    return websiteRegex.test(website);
+    if (!website.match(/^https?:\/\//)) {
+      website = "https://" + website;
+    }
+    if (websiteRegex.test(website)) return website;
+    else return false;
   }
 
   static phoneNumber(number) {
