@@ -1,0 +1,21 @@
+{
+  "name": "business-card",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm --prefix client run build",
+    "start": "npm --prefix server start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YehoshuaTT/business-card.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YehoshuaTT/business-card/issues"
+  },
+  "homepage": "https://github.com/YehoshuaTT/business-card#readme"
+}
