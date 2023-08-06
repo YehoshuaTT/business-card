@@ -41,7 +41,7 @@ export default function CreateCard() {
       return;
     }
     const url = Validations.webAddress(cardInfo.get("webURL"));
-    if (url) cardInfo.append("webURL", url);
+    if (url) cardInfo.set("webURL", url);
     else {
       setErrMsg("Website address is missing");
       return;

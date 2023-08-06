@@ -16,7 +16,7 @@ function Bcard({ cardInfo, userId }) {
   const cardRef = useRef(null);
   const businessType = useRef();
   const handleDelete = async (id) => {
-    if (BusinessCardService.delete(id));
+    if (BusinessCardService.delete(id)) window.location.reload();
   };
 
   useEffect(() => {
