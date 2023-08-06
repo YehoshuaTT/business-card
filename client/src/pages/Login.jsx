@@ -127,7 +127,7 @@ export default function Login({ setAuthorized }) {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/auth/register" variant="body2">
+                <Link href="/login/register" variant="body2">
                   Don't have an account? Register
                 </Link>
               </Grid>
