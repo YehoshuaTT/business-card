@@ -1,5 +1,6 @@
 const BusinessCard = require("../models/businessCard.model");
 const path = require("path");
+const { promises: fsPromises } = require("fs");
 
 class BusinessCardService {
   static async index() {
@@ -17,7 +18,7 @@ class BusinessCardService {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      username: user.firstName + " The User",
+      username: "Name: " + businessCard.businessType,
     });
   }
 
@@ -30,13 +31,30 @@ class BusinessCardService {
   }
 
   static async delete(businessCardId, userId) {
+    const card = await BusinessCard.findOne({ _id: businessCardId, userId });
+    this.deleteImage(card.image);
     return BusinessCard.findOneAndDelete({ _id: businessCardId, userId });
+  }
+
+  static async deleteImage(imagePath) {
+    try {
+      const fullPath = path.join(__dirname, "..", "/public", imagePath);
+      await fsPromises.unlink(fullPath);
+    } catch (error) {
+      console.error("Error deleting the image:", error);
+    }
   }
 
   static async upload(image) {
     const imageName = "/images/" + Date.now() + image.name;
-    if (image.mv(path.join(__dirname, "..", "/public", imageName)))
+    const imagePath = path.join(__dirname, "..", "/public", imageName);
+    try {
+      await fsPromises.writeFile(imagePath, image.data);
       return imageName;
+    } catch (error) {
+      console.error("Error uploading the image:", error);
+      return null;
+    }
   }
 }
 

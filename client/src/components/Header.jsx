@@ -23,7 +23,7 @@ function Header({ authorized, setAuthorized }) {
       <Typography
         align="center"
         width="99%"
-        marginLeft={showGoogleButton ? "8%" : "-10%"}
+        marginLeft={showGoogleButton ? (authorized ? "8%" : "11%") : "-10%"}
         variant="h1"
       >
         Business Cards
