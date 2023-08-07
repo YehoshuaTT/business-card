@@ -47,9 +47,10 @@ class BusinessCardService {
 
   static async upload(image) {
     const imageName = "/images/" + Date.now() + image.name;
+    const imagePath = path.join(__dirname, "..", "public", imageName);
     try {
-      if (image.mv(path.join(__dirname, "..", "/public", imageName)))
-        return imageName;
+      await fsPromises.writeFile(imagePath, image.data);
+      return imageName;
     } catch (error) {
       console.error("Error uploading the image:", error);
       return null;
