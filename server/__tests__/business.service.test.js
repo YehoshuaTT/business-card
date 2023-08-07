@@ -1,5 +1,6 @@
 const BusinessCard = require("../models/businessCard.model");
 const BusinessCardService = require("../services/businessCards.service");
+const { promises: fsPromises } = require("fs");
 
 describe("BusinessCard service", () => {
   describe("indexCards service", () => {
@@ -114,45 +115,58 @@ describe("BusinessCard service", () => {
 
   describe("deleteCard service", () => {
     it("will accept businessCardId, userId, and return the result attempt", async () => {
+      jest.spyOn(BusinessCard, "findOne").mockReturnValue({
+        _id: "cardId",
+        userId: "userId",
+        image: "imagePath",
+      });
       jest
         .spyOn(BusinessCard, "findOneAndDelete")
-        .mockReturnValueOnce({ delete: "success" });
+        .mockReturnValue({ delete: "success" });
+      jest
+        .spyOn(BusinessCardService, "deleteImage")
+        .mockImplementationOnce((prop) => prop);
 
       const deleted = await BusinessCardService.delete("cardId", "userId");
-      expect(typeof deleted).toBe("object");
-      expect(deleted.delete).toBe("success");
-      expect(BusinessCard.findOneAndDelete).toBeCalledWith({
+
+      expect(BusinessCard.findOne).toHaveBeenCalledWith({
         _id: "cardId",
         userId: "userId",
       });
+      expect(BusinessCardService.deleteImage).toHaveBeenCalledWith("imagePath");
+      expect(deleted).toEqual({ delete: "success" });
     });
   });
 
-  describe("uploadfile  service", () => {
+  describe("uploadfile service", () => {
     it("should return the image path if it is successfully moved", async () => {
       const image = {
         name: "test-image.jpg",
-        mv: jest.fn().mockResolvedValue(true),
+        data: "mock image data",
       };
+      jest
+        .spyOn(fsPromises, "writeFile")
+        .mockImplementationOnce((prop) => prop);
       const result = await BusinessCardService.upload(image);
 
       expect(result).toMatch(/^\/images\/\d+test-image.jpg$/);
-      expect(image.mv).toHaveBeenCalledWith(
-        expect.stringContaining("/public/")
-      );
+      expect(fsPromises.writeFile).toHaveBeenCalled();
     });
 
     it("should return undefined if the image cannot be moved", async () => {
       const image = {
         name: "test-image.jpg",
-        mv: jest.fn().mockReturnValue(false),
+        data: "mock image data",
       };
+
+      fsPromises.writeFile.mockRejectedValue(
+        new Error("Mocked writeFile error")
+      );
+
       const result = await BusinessCardService.upload(image);
 
-      expect(result).toBeUndefined();
-      expect(image.mv).toHaveBeenCalledWith(
-        expect.stringContaining("/public/")
-      );
+      expect(result).toBeNull();
+      expect(fsPromises.writeFile).toHaveBeenCalled();
     });
   });
 });
