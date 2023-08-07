@@ -100,11 +100,30 @@ function Bcard({ cardInfo, userId }) {
               </>
             ) : (
               <>
-                <Typography align="left" variant="body2" color="text.primary">
+                <Typography
+                  align="left"
+                  variant="body2"
+                  color="text.primary"
+                  style={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    wordWrap: "break-word",
+                  }}
+                >
                   {cardInfo.email + " | "}
                 </Typography>
-                <br />
-                <Typography align="right" variant="body2" color="text.primary">
+                <Typography
+                  align="right"
+                  variant="body2"
+                  color="text.primary"
+                  style={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    wordWrap: "break-word",
+                  }}
+                >
                   {cardInfo.webURL}
                 </Typography>
               </>
