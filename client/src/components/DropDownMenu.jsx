@@ -9,48 +9,51 @@ import Cookies from "js-cookie";
 export default function DropDownMenu({ authorized, setAuthorized }) {
   const navigate = useNavigate();
   return (
-    <PopupState variant="popover" popupId="demo-popup-menu">
-      {(popupState) => (
-        <>
-          <AccountCircleIcon
-            className="user-icon"
-            style={{ marginLeft: "10%" }}
-            fontSize="large"
-            color="primary"
-            {...bindTrigger(popupState)}
-          />
-          <Menu {...bindMenu(popupState)}>
-            <MenuItem
-              onClick={() => {
-                popupState.close();
-                navigate("/login");
-              }}
-            >
-              Login
-            </MenuItem>
-            <MenuItem
-              onClick={() => {
-                popupState.close();
-                Cookies.set("userId", "bla");
-                setAuthorized(false);
-                navigate("/");
-              }}
-            >
-              Logout
-            </MenuItem>
-            {authorized && (
+    <>
+      <PopupState variant="popover" popupId="demo-popup-menu">
+        {(popupState) => (
+          <>
+            <AccountCircleIcon
+              className="user-icon"
+              style={{ marginLeft: "10%" }}
+              fontSize="large"
+              color="primary"
+              {...bindTrigger(popupState)}
+            />
+            <Menu {...bindMenu(popupState)}>
               <MenuItem
                 onClick={() => {
                   popupState.close();
-                  navigate("/create");
+                  navigate("/login");
                 }}
               >
-                Creat card
+                Login
               </MenuItem>
-            )}
-          </Menu>
-        </>
-      )}
-    </PopupState>
+              <MenuItem
+                onClick={() => {
+                  popupState.close();
+                  Cookies.set("userId", "bla");
+                  setAuthorized(false);
+                  navigate("/");
+                }}
+              >
+                Logout
+              </MenuItem>
+              {authorized && (
+                <MenuItem
+                  onClick={() => {
+                    popupState.close();
+                    navigate("/create");
+                  }}
+                >
+                  Create card
+                </MenuItem>
+              )}
+            </Menu>
+          </>
+        )}
+      </PopupState>
+      <h6 className="drop">Your account</h6>
+    </>
   );
 }
